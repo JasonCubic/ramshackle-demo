@@ -1,0 +1,31 @@
+# Configuration file for Mega-Linter
+# See all available variables at https://nvuillam.github.io/mega-linter/configuration/ and in linters documentation
+
+APPLY_FIXES: none # all, none, or list of linter keys
+DEFAULT_BRANCH: main # Usually master or main
+PRINT_ALPACA: false # just decoration
+SHOW_ELAPSED_TIME: true # shows how long each linter took in the linter report summary table
+
+# keep mega linter from putting the report out on a file share name FILEIO on the internet for us
+FILEIO_REPORTER: false
+
+DISABLE_LINTERS:
+  - JAVASCRIPT_STANDARD # this is a competing js linter to airbnb that named itself "standard"
+  - EDITORCONFIG_EDITORCONFIG_CHECKER # this linter unable to allow unset line endings crlf/lf
+  - TYPESCRIPT_STANDARD # this project does not use typescript
+  - GIT_GIT_DIFF # fails if the "git diff --check" command returns anything
+
+# the import resolution checking is done by eslint-plugin-import at dev time
+JAVASCRIPT_ES_ARGUMENTS: "--rule 'import/no-unresolved: off'"
+
+# This file is written by and for vscode.  No need to lint it if developers are not interacting with it.
+JSON_PRETTIER_FILTER_REGEX_EXCLUDE: .cspell.json
+
+# This rule is opinionated, and I do not share the same opinion.  https://github.com/koalaman/shellcheck/wiki/SC2181
+BASH_SHELLCHECK_ARGUMENTS: "--exclude=SC2181"
+
+# Some links goto temporary servers and fail, prefer to keep the check as a warning for information only
+MARKDOWN_MARKDOWN_LINK_CHECK_DISABLE_ERRORS: true
+
+# some leeway because this is a non-production app
+COPYPASTE_JSCPD_DISABLE_ERRORS_IF_LESS_THAN: 3

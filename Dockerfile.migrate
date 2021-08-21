@@ -1,0 +1,14 @@
+FROM node:14.17.0-alpine3.13
+
+LABEL name=ramshackle-migrate
+LABEL version=1
+
+WORKDIR /usr/app
+
+COPY package.json package.json
+COPY migrate.js migrate.js
+
+# hadolint ignore=DL3018
+RUN yarn install --pure-lockfile --production --proxy "${HTTP_PROXY}" --https-proxy "${HTTPS_PROXY}" && yarn cache clean
+
+CMD ["node", "migrate.js"]

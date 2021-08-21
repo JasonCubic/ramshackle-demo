@@ -1,0 +1,56 @@
+# https://github.com/compose-spec/compose-spec/blob/master/spec.md
+---
+services:
+  ramshackle-api:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - MSSQL_USERNAME=ramshackle_user
+      - MSSQL_PASSWORD=us3rS3cretPass
+    restart: unless-stopped
+    depends_on:
+      ramshackle-migrate:
+        condition: service_completed_successfully
+      ramshackle-mssql:
+        condition: service_healthy
+    ports:
+      - 8080:8080
+    networks:
+      - intranet
+
+  ramshackle-migrate:
+    container_name: ramshackle-migrate
+    build:
+      context: .
+      dockerfile: ./Dockerfile.migrate
+    env_file:
+      - .env
+    environment:
+      - SA_USERNAME=SA
+      - SA_PASSWORD=adm1nS3cretPass
+    restart: on-failure
+    depends_on:
+      ramshackle-mssql:
+        condition: service_healthy
+    networks:
+      - intranet
+
+  ramshackle-mssql:
+    container_name: ramshackle-mssql
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=adm1nS3cretPass
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - intranet
+
+networks:
+  intranet:

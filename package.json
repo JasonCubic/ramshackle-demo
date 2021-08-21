@@ -1,0 +1,32 @@
+{
+  "name": "ramshackle-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "start": "yarn run down && yarn run build && yarn run up",
+    "stop": "yarn run down",
+    "up": "docker compose up --detach",
+    "build": "docker compose build --no-cache",
+    "down": "docker compose down --volumes --remove-orphans",
+    "sqlmap": "bash ./utils/sqlmap.sh",
+    "sonarqube:scan": "node ./sonarqube-scan.js sonarqube_token_goes_here",
+    "ci:local": "bash ./utils/ci-local-runner.sh"
+  },
+  "dependencies": {
+    "casual": "^1.6.2",
+    "express": "^4.17.1",
+    "mssql": "^7.2.1"
+  },
+  "devDependencies": {
+    "eslint": "7.2.0",
+    "eslint-config-airbnb": "18.2.1",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-react": "7.21.5",
+    "eslint-plugin-react-hooks": "1.7.0"
+  }
+}
