@@ -1,5 +1,7 @@
 #!/bin/bash
 
+docker rmi returntocorp/semgrep:latest
+
 docker run -it --rm \
   -v "/src/node_modules" \
   -v "/src/report" \

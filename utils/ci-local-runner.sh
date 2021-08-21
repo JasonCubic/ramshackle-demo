@@ -62,6 +62,9 @@ fi
 # docker run -it --rm -v "$(pwd):/src" --entrypoint="/bin/sh" returntocorp/semgrep
 
 print_yellow "\nstarting semgrep scan.\n"
+
+docker rmi returntocorp/semgrep:latest
+
 docker run -it --rm \
   -v "/src/node_modules" \
   -v "/src/report" \
@@ -72,6 +75,18 @@ docker run -it --rm \
   -e "HTTP_PROXY=$HTTP_PROXY" \
   -e "HTTPS_PROXY=$HTTPS_PROXY" \
   returntocorp/semgrep:latest \
+  --config "p/owasp-top-ten" \
+  --config "p/command-injection" \
+  --config "p/insecure-transport" \
+  --config "p/security-audit" \
+  --config "p/r2c-best-practices" \
+  --config "p/jwt" \
+  --config "p/xss" \
+  --config "p/javascript" \
+  --config "p/security-audit" \
+  --config "p/eslint-plugin-security" \
+  --config "p/r2c-best-practices" \
+  --config "p/expressjs" \
   --config "p/r2c" \
   --config "p/ci" \
   --config "p/secrets" \
@@ -93,19 +108,3 @@ fi
 
 # if you want to use the same container that github actions uses for semgrep, this is the one: returntocorp/semgrep-action
 # but it does not output a sarif report file the same way
-
-# semgrep --config "p/owasp-top-ten"
-
-  # --config "p/owasp-top-ten" \
-
-  # --config "p/command-injection" \
-  # --config "p/insecure-transport" \
-  #   --config "p/security-audit" \
-  # --config "p/r2c-best-practices" \
-  # --config "p/jwt" \
-  # --config "p/xss" \
-  # --config "p/javascript" \
-  # --config "p/security-audit" \
-  # --config "p/eslint-plugin-security" \
-  # --config "p/r2c-best-practices" \
-  # --config "p/expressjs" \
