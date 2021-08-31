@@ -52,3 +52,12 @@ Sonarqube local scanning notes:
 * This will create the sonarqube projects if they are not already created.
 * The scan for 7 modules takes about 15 minutes.
 * rarely when I was running the scans the sonarsource cli hung and I had to restart docker
+
+---
+
+## mssql parameter example
+
+```js
+request.input('USER_ID', mssql.Int, id);
+const dbResult = await request.query('SELECT * FROM [ramshackle].[dbo].[users] WHERE user_id = @USER_ID');
+```

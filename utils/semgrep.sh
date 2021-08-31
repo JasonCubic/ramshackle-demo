@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# jscpd:ignore-start
+
 docker rmi returntocorp/semgrep:latest
 
 docker run -it --rm \
@@ -33,6 +35,9 @@ docker run -it --rm \
   --config "p/dockerfile" \
   --config "p/docker-compose" \
   --config "p/sql-injection" \
+  --config "r/javascript.lang.security.audit.sqli.node-mssql-sqli.node-mssql-sqli" \
   --sarif \
   --output "/src/semgrep-results.sarif" \
   --error
+
+# jscpd:ignore-end
