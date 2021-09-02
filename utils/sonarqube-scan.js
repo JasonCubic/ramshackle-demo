@@ -106,7 +106,7 @@ async function handleSonarqubeScan(projectName, projectFolder) {
     console.log('authToken is not set');
     return;
   }
-  const projectFolder = path.resolve(__dirname);
+  const projectFolder = path.resolve(__dirname, '..');
   console.log('projectFolder: ', projectFolder);
   await handleSonarqubeScan(packageJson?.name ?? 'local-project', projectFolder);
 })();

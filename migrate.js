@@ -59,7 +59,7 @@ async function simpleDbQuery(pool, queryString) {
     pool.close();
     process.exit(1);
   }
-  console.log('systemDbCollection: ', systemDbCollection);
+  // console.log('systemDbCollection: ', systemDbCollection);
 
   const dbIndex = systemDbCollection.findIndex((dbRow) => dbRow.name === 'ramshackle');
 
@@ -73,6 +73,8 @@ async function simpleDbQuery(pool, queryString) {
     pool.close();
     process.exit(1);
   }
+
+  console.log('ramshackle database created');
 
   let allTables;
   try {
@@ -109,6 +111,7 @@ async function simpleDbQuery(pool, queryString) {
       return;
     }
   }
+  console.log(`migration version is behind ${migrationRev}.  Running this migration script.`);
 
   const migrationSteps = [
     `
@@ -166,6 +169,7 @@ async function simpleDbQuery(pool, queryString) {
 
   for (let j = 0; j < migrationSteps.length; j += 1) {
     try {
+      console.log(migrationSteps[j]);
       await simpleDbQuery(pool, migrationSteps[j]);
     } catch (err) {
       console.log('ERROR', migrationSteps[j], err.message, err);
@@ -215,6 +219,8 @@ async function simpleDbQuery(pool, queryString) {
     }
   }
 
+  console.log('inserted 500 rows into table [ramshackle].[dbo].[users]');
+
   try {
     await simpleDbQuery(pool, `INSERT INTO [ramshackle].[dbo].[meta_info] ([json_data]) VALUES ('${JSON.stringify({ key: 'migration-applied', value: migrationRev })}')`);
   } catch (err) {
@@ -222,6 +228,7 @@ async function simpleDbQuery(pool, queryString) {
     pool.close();
     process.exit(1);
   }
+  console.log('updated database migration-applied version in table [ramshackle].[dbo].[meta_info] to: ', migrationRev);
 
   pool.close();
   console.log('migrate finished');

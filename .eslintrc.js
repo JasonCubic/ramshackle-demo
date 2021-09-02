@@ -7,7 +7,11 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
+  // plugins: [
+  //   'security',
+  // ],
   extends: [
+    // 'plugin:security/recommended',
     'eslint-config-airbnb-base/rules/best-practices.js',
     'eslint-config-airbnb-base/rules/errors.js',
     'eslint-config-airbnb-base/rules/es6.js',

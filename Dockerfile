@@ -1,4 +1,4 @@
-FROM node:14.17.0-alpine3.13
+FROM node:14.17.6-alpine3.14
 
 LABEL name=ramshackle-api
 LABEL version=1
@@ -8,6 +8,6 @@ WORKDIR /usr/app
 COPY package.json package.json
 COPY index.js index.js
 
-RUN yarn install --pure-lockfile --production --proxy "${HTTP_PROXY}" --https-proxy "${HTTPS_PROXY}" && yarn cache clean
+RUN yarn install --pure-lockfile --proxy "${HTTP_PROXY}" --https-proxy "${HTTPS_PROXY}" && yarn cache clean
 
-CMD ["node", "."]
+CMD ["yarn", "run", "nodemon:dev"]
